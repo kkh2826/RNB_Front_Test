@@ -24,8 +24,9 @@ const initialState = {
   key: '',
   selectStock: {stockCode: '', stockName: ''},
   priceList: [],
-  selectPeriod: '',
-  selectPricePeriod: [],
+  selectPeriod: 'ONEYEAR',
+  //selectPricePeriod: {ONEYEAR:[]},
+  selectPricePeriod: null,
 };
 
 // reducer
@@ -50,7 +51,10 @@ const reducer = handleActions(
     [SELECTPERIOD]: (state, { payload: period }) => ({
       ...state,
       selectPeriod: period,
-      selectPricePeriod: state.priceList.filter(data => Object.keys(data) === period)
+      //selectPricePeriod: Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR").filter((key, value) => value),
+      //selectPricePeriod: console.log(Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR")[1]),
+      //selectPricePeriod: Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR")[1],
+      selectPricePeriod: state.priceList[period],
     })
   },
   initialState
