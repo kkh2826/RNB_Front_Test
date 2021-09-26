@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { handleActions, createAction } from 'redux-actions';
 import createRequestThunk from '../lib/createRequestThunk';
 
@@ -11,9 +10,13 @@ const CHANGEKEY = 'stock/CHANGEKEY';
 const SELECTSTOCK = 'stock/SELECTSTOCK';
 const SELECTPERIOD = 'stock/SELECTPERIOD';
 
+const GetStockList = market =>
+  fetch(`http://127.0.0.1:8000/api/stockinfo/${market}/`);
+const GetStockPriceList = stockCode =>
+  fetch(`http://127.0.0.1:8000/api/stockinfo/searchdetailinfo/${stockCode}/`);
 // action creator
-export const fetchStockList = createRequestThunk(FETCH_STOCK_LIST, () => axios.get('http://127.0.0.1:8000/api/stockinfo/KOSPI/'));
-export const fetchStockPriceList = createRequestThunk(FETCH_STOCK_PRICELIST, (stockCode)=>axios.get(`http://127.0.0.1:8000/api/stockinfo/searchdetailinfo/${stockCode}/`));
+export const fetchStockList = createRequestThunk(FETCH_STOCK_LIST, GetStockList);
+export const fetchStockPriceList = createRequestThunk(FETCH_STOCK_PRICELIST, GetStockPriceList);
 export const changeKey = createAction(CHANGEKEY, stockName=>stockName);
 export const selectStock = createAction(SELECTSTOCK, stockCode=>stockCode);
 export const selectPeriod = createAction(SELECTPERIOD, period=>period);
@@ -22,11 +25,10 @@ export const selectPeriod = createAction(SELECTPERIOD, period=>period);
 const initialState = {
   stockList: [],
   key: '',
-  selectStock: {stockCode: '', stockName: ''},
+  selectStock: {stockCode: '종목을 선택하세요.', stockName: ''},
   priceList: [],
   selectPeriod: 'ONEYEAR',
-  //selectPricePeriod: {ONEYEAR:[]},
-  selectPricePeriod: null,
+  selectPricePeriod: [],
 };
 
 // reducer
@@ -34,7 +36,7 @@ const reducer = handleActions(
   {
     [FETCH_STOCK_LIST_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      stockList: JSON.parse(data),
+      stockList: data,
     }),
     [CHANGEKEY]: (state, { payload: stockName }) => ({
       ...state,
@@ -43,17 +45,15 @@ const reducer = handleActions(
     [SELECTSTOCK]: (state, { payload: stockCode }) => ({
       ...state,
       selectStock: state.stockList.find(stockInfo => stockInfo.stockCode === stockCode),
+      selectPricePeriod: [],
     }),
     [FETCH_STOCK_PRICELIST_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      priceList: JSON.parse(data)
+      priceList: data
     }),
     [SELECTPERIOD]: (state, { payload: period }) => ({
       ...state,
       selectPeriod: period,
-      //selectPricePeriod: Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR").filter((key, value) => value),
-      //selectPricePeriod: console.log(Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR")[1]),
-      //selectPricePeriod: Object.entries(state.priceList).find(([key, value]) => key === "ONEYEAR")[1],
       selectPricePeriod: state.priceList[period],
     })
   },

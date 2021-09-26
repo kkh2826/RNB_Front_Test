@@ -8,9 +8,11 @@ function createRequestThunk(type, request) {
     dispatch(startLoading(type));
     try {
       const response = await request(params);
+      const jsonString = await response.json();
+      const payload = JSON.parse(jsonString);
       dispatch({
         type: SUCCESS,
-        payload: response.data,
+        payload: payload,
       });
     } catch (e) {
       dispatch({

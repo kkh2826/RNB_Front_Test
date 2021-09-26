@@ -1,25 +1,18 @@
-import { SearchIcon } from '@chakra-ui/icons';
-import {
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Text,
-} from '@chakra-ui/react';
-import { useState } from 'react';
 import { useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import StockBasicInfo from '../components/StockBasicInfo';
 import StockNameList from '../containers/lists/StockNameList';
-import { changeKey, selectPeriod } from '../modules/stock';
+import { selectPeriod } from '../modules/stock';
+import { Flex, Text, Button } from '@chakra-ui/react';
 
-import LineChart from './Chart';
+import StockChart from '../components/StockChart';
 
 const MainBoard = () => {
   return (
     <div className="grid grid-cols-3 gap-4 h-full">
       <div className="col-span-2 grid grid-rows-2 gap-4 ">
         <StackDetail />
-        {/* <StackChart /> */}
+        <StackChart />
       </div>
       <div className="col-span-1 h-full">
         <StackList />
@@ -35,83 +28,66 @@ const StackDetail = () => {
   }, [dispatch])
   return (
     <div className="">
-      <Text fontSize="3xl">{selectStock.stockCode}</Text>
-      <Text>{selectStock.stockName}</Text>
-      {selectStock && (
-        <div>
-          <button id="ONEYEAR" onClick={onClick}>ONEYEAR</button><br/>
-          <button id="ONEMONTH" onClick={onClick}>ONEMONTH</button><br/>
-          <button id="THREEMONTH" onClick={onClick}>THREEMONTH</button><br/>
-          <button id="SIXMONTH" onClick={onClick}>SIXMONTH</button><br/>
-          <button id="TENEYAR" onClick={onClick}>TENYEAR</button>
-        </div>
-      )}
-      <StackChart />
+      <Flex alignItems="center" className="mb-4">
+        <Text fontSize="3xl">{selectStock.stockName}</Text>
+        <Text fontSize="lg" color="gray.500" className="ml-2">{selectStock.stockCode}</Text>
+      </Flex>
+      <Flex className="mb-6">
+        <Button
+          className="mr-1"
+          size="sm"
+          id="ONEMONTH"
+          onClick={onClick}
+        >
+          1개월
+        </Button>
+        <Button
+          className="mr-1"
+          size="sm"
+          id="THREEMONTH"
+          onClick={onClick}
+        >
+          3개월
+        </Button>
+        <Button
+          className="mr-1"
+          size="sm"
+          id="SIXMONTH"
+          onClick={onClick}
+        >
+          6개월
+        </Button>
+        <Button
+          className="mr-1"
+          size="sm"
+          id="ONEYEAR"
+          onClick={onClick}
+        >
+          1년
+        </Button>
+        <Button
+          className="mr-1"
+          size="sm"
+          id="TENYEARS"
+          onClick={onClick}
+        >
+          10년
+        </Button>
+      </Flex>
+      <StockChart />
     </div>
   );
 };
 const StackList = () => {
-  const dispatch = useDispatch();
-  const [searchStockName, setSearchStockName] = useState('');
-
-  const onChange = useCallback((e) => {
-    setSearchStockName(e.target.value);
-  }, [])
-  const onSearch = useCallback((e) => {
-    if (e.type === 'click') {
-      dispatch(changeKey(searchStockName))
-    }
-    if (e.type === 'keydown' && e.code === 'Enter') {
-      dispatch(changeKey(e.target.value));
-    }
-  }, [dispatch, searchStockName])
   return (
     <div className="py-3 px-2 border rounded">
-      <InputGroup>
-        <Input
-          placeholder="종목명 입력"
-          className="mb-2"
-          value={searchStockName}
-          onChange={onChange}
-          onKeyDown={onSearch}
-        />
-        <InputRightElement
-          children={
-            <IconButton
-              variant="unstyled"
-              isActive={false}
-              icon={<SearchIcon />}
-            />
-          }
-          onClick={onSearch}
-        />
-      </InputGroup>
+      <StockBasicInfo />
       <StockNameList />
     </div>
   );
 };
 const StackChart = () => {
-  console.log('차트 시작');
-  const selectPricePeriod = useSelector( rootReducer => rootReducer.stock.selectPricePeriod );
-  console.log(selectPricePeriod);
-  return (
-    <div>
-      <LineChart />
-    </div>
-    // <div>
-    //   {selectPricePeriod && selectPricePeriod.map(priceInfo => (
-    //     <div key={priceInfo.날짜}>
-    //       <p>{priceInfo["날짜"]}</p>
-    //       <p>{priceInfo["시가"]}</p>
-    //       <p>{priceInfo["종가"]}</p>
-    //       <p>{priceInfo["고가"]}</p>
-    //       <p>{priceInfo["저가"]}</p>
-    //       <p>{priceInfo["거래량"]}</p>
-    //     </div>
-    //   ))}
-    // </div>
-  )
-  // return <div className=""></div>;
+   return <div className=""></div>;
 };
 
 export default MainBoard;
