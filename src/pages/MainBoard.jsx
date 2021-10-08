@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StockBasicInfo from '../components/StockBasicInfo';
 import StockNameList from '../containers/lists/StockNameList';
@@ -23,6 +23,13 @@ const MainBoard = () => {
 const StackDetail = () => {
   const dispatch = useDispatch();
   const selectStock = useSelector( rootReducer => rootReducer.stock.selectStock );
+  const [periods] = useState([
+    'ONEMONTH',
+    'THREEMONTH',
+    'SIXMONTH',
+    'ONEYEAR',
+    'TENYEARS'
+  ])
   const onClick = useCallback((e) => {
     dispatch(selectPeriod(e.target.id));
   }, [dispatch])
@@ -33,46 +40,16 @@ const StackDetail = () => {
         <Text fontSize="lg" color="gray.500" className="ml-2">{selectStock.stockCode}</Text>
       </Flex>
       <Flex className="mb-6">
-        <Button
-          className="mr-1"
-          size="sm"
-          id="ONEMONTH"
-          onClick={onClick}
-        >
-          1개월
-        </Button>
-        <Button
-          className="mr-1"
-          size="sm"
-          id="THREEMONTH"
-          onClick={onClick}
-        >
-          3개월
-        </Button>
-        <Button
-          className="mr-1"
-          size="sm"
-          id="SIXMONTH"
-          onClick={onClick}
-        >
-          6개월
-        </Button>
-        <Button
-          className="mr-1"
-          size="sm"
-          id="ONEYEAR"
-          onClick={onClick}
-        >
-          1년
-        </Button>
-        <Button
-          className="mr-1"
-          size="sm"
-          id="TENYEARS"
-          onClick={onClick}
-        >
-          10년
-        </Button>
+        {periods.map( p => (
+          <Button
+            className="mr-1"
+            size="sm"
+            id={p}
+            onClick={onClick}
+          >
+            {p}
+          </Button>
+        ))}
       </Flex>
       <StockChart />
     </div>

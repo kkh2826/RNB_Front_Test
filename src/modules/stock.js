@@ -46,10 +46,12 @@ const reducer = handleActions(
       ...state,
       selectStock: state.stockList.find(stockInfo => stockInfo.stockCode === stockCode),
       selectPricePeriod: [],
+      //selectPricePeriod: state.priceList[state.selectPeriod]
     }),
     [FETCH_STOCK_PRICELIST_SUCCESS]: (state, { payload: data }) => ({
       ...state,
-      priceList: data
+      priceList: data,
+      selectPricePeriod: data["ONEMONTH"]
     }),
     [SELECTPERIOD]: (state, { payload: period }) => ({
       ...state,
