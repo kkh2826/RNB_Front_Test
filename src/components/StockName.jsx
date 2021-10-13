@@ -3,6 +3,8 @@ import { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { selectStock, fetchStockPriceList } from '../modules/stock';
 
+import { BsStar, BsStarFill } from 'react-icons/bs';
+
 const StockName = ({ stockCode, stockName }) => {
   const dispatch = useDispatch();
   const onClick = useCallback(() => {

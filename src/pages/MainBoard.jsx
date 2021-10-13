@@ -23,13 +23,16 @@ const MainBoard = () => {
 const StackDetail = () => {
   const dispatch = useDispatch();
   const selectStock = useSelector( rootReducer => rootReducer.stock.selectStock );
-  const [periods] = useState([
-    'ONEMONTH',
-    'THREEMONTH',
-    'SIXMONTH',
-    'ONEYEAR',
-    'TENYEARS'
-  ])
+  const selectedPeriod = useSelector( rootReducer => rootReducer.stock.selectPeriod );
+
+  const [periods] = useState({
+    'ONEMONTH' : '1개월',
+    'THREEMONTH': '3개월',
+    'SIXMONTH': '6개월',
+    'ONEYEAR': '1년',
+    'TENYEARS': '10년'
+  })
+
   const onClick = useCallback((e) => {
     dispatch(selectPeriod(e.target.id));
   }, [dispatch])
@@ -40,14 +43,15 @@ const StackDetail = () => {
         <Text fontSize="lg" color="gray.500" className="ml-2">{selectStock.stockCode}</Text>
       </Flex>
       <Flex className="mb-6">
-        {periods.map( p => (
+        {Object.keys(periods).map( p => (
           <Button
             className="mr-1"
             size="sm"
             id={p}
+            variant={p === selectedPeriod ? 'solid' : 'ghost'}
             onClick={onClick}
           >
-            {p}
+            {periods[p]}
           </Button>
         ))}
       </Flex>

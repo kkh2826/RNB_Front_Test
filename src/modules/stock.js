@@ -27,7 +27,7 @@ const initialState = {
   key: '',
   selectStock: {stockCode: '종목을 선택하세요.', stockName: ''},
   priceList: [],
-  selectPeriod: 'ONEYEAR',
+  selectPeriod: 'ONEMONTH',
   selectPricePeriod: [],
 };
 
@@ -46,7 +46,6 @@ const reducer = handleActions(
       ...state,
       selectStock: state.stockList.find(stockInfo => stockInfo.stockCode === stockCode),
       selectPricePeriod: [],
-      //selectPricePeriod: state.priceList[state.selectPeriod]
     }),
     [FETCH_STOCK_PRICELIST_SUCCESS]: (state, { payload: data }) => ({
       ...state,

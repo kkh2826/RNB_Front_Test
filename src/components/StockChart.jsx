@@ -1,26 +1,22 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
-
+import { useColorModeValue } from '@chakra-ui/react';
 
 const StockChart = () => {
     const stockPriceList = useSelector( rootReducer => rootReducer.stock.selectPricePeriod );
-    const selectPeriod = useSelector( rootReducer => rootReducer.stock.selectPeriod);
-    
-    console.log('선택 기간');
-    console.log(selectPeriod);
-
-    console.log('가격 리스트 : ');
-    console.log(stockPriceList);
+    const isDark = useColorModeValue(false, true);
+    const themeColor = isDark ? 'rgba(255, 255, 255, 0.92)' : 'rgba(0, 0, 0, 0.64)';
     
     const data = {
-        labels: stockPriceList.map( price => price["날짜"]),
+        labels: stockPriceList.map( price => price["날짜"].split(' ')[0]),
         datasets: [
             {
               label: null,
               data: stockPriceList.map( price => price['종가']),
-              backgroundColor: 'rgb(255, 99, 132)',
-              borderColor: 'rgba(255, 99, 132, 0.2)',
+              borderColor: 'rgb(86, 115, 235)',
+              pointRadius: 4,
+              pointBackgroundColor: 'rgb(86, 115, 235)',
             },
         ],
     };
@@ -30,14 +26,40 @@ const StockChart = () => {
           intersect: false,
           mode: 'index',
         },
+        scales: {
+            x: {
+                ticks: {
+                    color: themeColor,
+                },
+                grid: {
+                    bordeWidth: 0.125,
+                    linewidth: 0.125,
+                    color: themeColor,
+                    tickColor: themeColor,
+                    borderColor: themeColor,
+                },
+            },
+            y: {
+                ticks: {
+                    color: themeColor,
+                },
+                grid: {
+                    borderwidth: 0.125,
+                    linewidth: 0.125,
+                    color: themeColor,
+                    tickColor: themeColor,
+                    borderColor: themeColor,
+                }
+            }
+        }
     };
     
     return (
-        <div>
+        <>
             {stockPriceList && (
                 <Line data={data} options={options} />
             )}
-        </div>
+        </>
     )
     
 }
