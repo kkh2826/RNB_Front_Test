@@ -11,16 +11,15 @@ const MainBoard = () => {
   return (
     <div className="grid grid-cols-3 gap-4 h-full">
       <div className="col-span-2 grid grid-rows-2 gap-4 ">
-        <StackDetail />
-        <StackChart />
+        <StockDetail />
       </div>
       <div className="col-span-1 h-full">
-        <StackList />
+        <StockList />
       </div>
     </div>
   );
 };
-const StackDetail = () => {
+const StockDetail = () => {
   const dispatch = useDispatch();
   const selectStock = useSelector( rootReducer => rootReducer.stock.selectStock );
   const selectedPeriod = useSelector( rootReducer => rootReducer.stock.selectPeriod );
@@ -59,16 +58,13 @@ const StackDetail = () => {
     </div>
   );
 };
-const StackList = () => {
+const StockList = () => {
   return (
     <div className="py-3 px-2 border rounded">
       <StockBasicInfo />
       <StockNameList />
     </div>
   );
-};
-const StackChart = () => {
-   return <div className=""></div>;
 };
 
 export default MainBoard;
