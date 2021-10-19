@@ -1,15 +1,18 @@
 import { Button } from '@chakra-ui/button';
 import { FormControl } from '@chakra-ui/form-control';
 import { Input } from '@chakra-ui/input';
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import { useInputs } from '../hooks';
 import { requestLogin } from '../modules/auth';
 
 const LoginPage = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const [form, onChange] = useInputs({ username: '', password: ''});
+    const isLogin = useSelector( rootReducer => rootReducer.auth.isLogin );
 
     // const [form, setForm] = useState({ username: '', password: ''});
     // const onChange = useCallback((e) => {
@@ -24,6 +27,11 @@ const LoginPage = () => {
         e.preventDefault();
         dispatch(requestLogin(form));
     }, [dispatch, form])
+
+    useEffect(() => {
+        if (isLogin) history.push('/');
+    }, [isLogin, history]);
+
     return (
         <div className="flex justify-center mt-10">
             <div className="w-96 p-8 border-solid border-4 border-light-blue-500 rounded">
