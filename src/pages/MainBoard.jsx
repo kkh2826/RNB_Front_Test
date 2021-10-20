@@ -47,6 +47,7 @@ const StockDetail = () => {
             className="mr-1"
             size="sm"
             id={p}
+            key={`perod_button_${p}`}
             variant={p === selectedPeriod ? 'solid' : 'ghost'}
             onClick={onClick}
           >

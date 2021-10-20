@@ -5,6 +5,7 @@ import { useColorModeValue } from '@chakra-ui/react';
 
 const StockChart = () => {
     const stockPriceList = useSelector( rootReducer => rootReducer.stock.selectPricePeriod );
+    const period = useSelector( rootReducer => rootReducer.stock.selectPeriod );
     const isDark = useColorModeValue(false, true);
     const themeColor = isDark ? 'rgba(255, 255, 255, 0.92)' : 'rgba(0, 0, 0, 0.64)';
     
@@ -16,12 +17,13 @@ const StockChart = () => {
                 label: null,
                 data: stockPriceList.map( price => price['종가']),
                 borderColor: 'rgb(86, 115, 235)',
-                pointRadius: 4,
+                borderwidth: period === 'TENYEARS' ? 1 : 4,
+                pointRadius: period === 'TENYEARS' ? 0 : 3,
                 pointBackgroundColor: 'rgb(86, 115, 235)',
                 },
             ],
         }
-    }, [stockPriceList])
+    }, [stockPriceList, period])
     const options = useMemo(() => {
         return {
             plugins: { legend: { display: false } },
@@ -33,6 +35,8 @@ const StockChart = () => {
                 x: {
                     ticks: {
                         color: themeColor,
+                        maxTicksLimit: 12,
+                        maxRotation: 20,
                     },
                     grid: {
                         bordeWidth: 0.125,

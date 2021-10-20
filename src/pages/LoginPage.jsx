@@ -8,6 +8,8 @@ import { useHistory } from 'react-router';
 import { useInputs } from '../hooks';
 import { requestLogin } from '../modules/auth';
 
+import RegisterAccountDrawer from './Drawer/RegisterAccountDrawer';
+
 const LoginPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -56,6 +58,7 @@ const LoginPage = () => {
                     <Button width="100%" size="lg" className="mt-8" type="submit">
                         로그인
                     </Button>
+                    <RegisterAccountDrawer />
                 </form>
             </div>
         </div>
