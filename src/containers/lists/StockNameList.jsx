@@ -10,7 +10,7 @@ const StockNameList = () => {
   const key = useSelector( rootReducer => rootReducer.stock.key );
   useEffect(() => {
     function GetStockList() {
-      dispatch(fetchStockList('KOSPI'))
+      dispatch(fetchStockList())
     }
     GetStockList()
   }, [dispatch])

@@ -17,6 +17,9 @@ function postData(url='', data={}) {
     })
 }
 
+const isLogin = !!sessionStorage.getItem('token') || false
+//const isLogin = sessionStorage.getItem('token') ? true: false
+
 const SET_AUTH = 'auth/SET_AUTH';
 
 export const setAuth = createAction(SET_AUTH);
@@ -45,7 +48,7 @@ export const requestLogout = () => dispatch => {
 }
 
 const initialState = {
-    isLogin: false
+    isLogin: isLogin
 }
 
 const reducer = handleActions(

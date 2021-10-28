@@ -1,7 +1,7 @@
 import { Box, useColorModeValue } from '@chakra-ui/react';
 import { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
-import { selectStock, fetchStockPriceList } from '../modules/stock';
+import { selectStock, fetchStockPriceList, fetchStockBasicPrice } from '../modules/stock';
 
 //import { BsStar, BsStarFill } from 'react-icons/bs';
 
@@ -12,6 +12,7 @@ const StockName = ({ stockCode, stockName }) => {
   const onClick = useCallback(() => {
     dispatch(selectStock(stockCode));
     dispatch(fetchStockPriceList(stockCode));
+    dispatch(fetchStockBasicPrice(stockCode));
   }, [dispatch, stockCode]);
   return (
     <Box
