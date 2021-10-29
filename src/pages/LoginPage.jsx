@@ -10,6 +10,8 @@ import { requestLogin } from '../modules/auth';
 
 import RegisterAccountDrawer from './Drawer/RegisterAccountDrawer';
 
+import NotifyToast from './Toast/NotifyToast';
+
 const LoginPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
@@ -31,7 +33,14 @@ const LoginPage = () => {
     }, [dispatch, form])
 
     useEffect(() => {
-        if (isLogin) history.push('/');
+        if (isLogin) {
+            NotifyToast(
+                'Login Success',
+                '성공적으로 로그인 되었습니다.',
+                'success'
+            );
+            history.push('/');
+        }
     }, [isLogin, history]);
 
     return (
