@@ -13,6 +13,8 @@ import { useCallback, useRef } from 'react';
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { requestLogout } from '../../modules/auth';
+import NotifyToast from "../Toast/NotifyToast";
+
 
   const LogoutModal = () => {
       const dispatch = useDispatch();
@@ -21,6 +23,11 @@ import { requestLogout } from '../../modules/auth';
       const finalRef = useRef();
       const onClickLogout = useCallback(() => {
         dispatch(requestLogout());
+        NotifyToast(
+          'Logout Success',
+          '정상적으로 로그아웃 되었습니다.',
+          'success'
+        )
         history.push('/');
       }, [history, dispatch]);
       return (
