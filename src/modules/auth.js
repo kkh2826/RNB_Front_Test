@@ -1,4 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
+import { closeToast, showToast } from './toast';
 
 function postData(url='', data={}) {
     return fetch(url,{
@@ -35,8 +36,28 @@ export const requestLogin = info => dispatch => {
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('username', user.username);
             dispatch(setAuth(true));
+            dispatch(showToast({
+                title: '로그인 성공',
+                description: `${user.username}님 안녕하세요`,
+                status: 'success',
+                duration: 5000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    dispatch(closeToast());
+                }
+            }))
         } catch(e){
             console.error(e);
+            dispatch(showToast({
+                title: '로그인 실패',
+                description: 'e.messasge',
+                statis: 'error',
+                duration: 5000,
+                isClosable: true,
+                onCloseComplete: () => {
+                    dispatch(closeToast())
+                }
+            }))
         }
     }
     login();

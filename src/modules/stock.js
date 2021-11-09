@@ -29,6 +29,7 @@ export const selectPeriod = createAction(SELECTPERIOD, period=>period);
 // initial state
 const initialState = {
   stockList: [],
+  searchStockList: [],
   key: '',
   selectStock: {stockCode: '종목을 선택하세요.', stockName: ''},
   priceList: [],
@@ -43,10 +44,12 @@ const reducer = handleActions(
     [FETCH_STOCK_LIST_SUCCESS]: (state, { payload: data }) => ({
       ...state,
       stockList: data,
+      searchStockList: data
     }),
     [CHANGEKEY]: (state, { payload: stockName }) => ({
       ...state,
-      key: stockName
+      key: stockName,
+      searchStockList: state.stockList.filter(stockInfo => stockInfo.stockName.toUpperCase().includes(stockName.toUpperClase()))
     }),
     [SELECTSTOCK]: (state, { payload: stockCode }) => ({
       ...state,

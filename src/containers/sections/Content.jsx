@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router';
-import { MainBoard, LoginPage } from '../../pages';
+import { MainBoard } from '../../pages';
 
 const Content = () => {
   return (
@@ -7,7 +7,6 @@ const Content = () => {
       <div className="container mx-auto px-4 h-full">
         <Switch>
           <Route path='/' exact component={MainBoard} />
-          <Route path='/login' component={LoginPage} />
         </Switch>
       </div>
     </div>
