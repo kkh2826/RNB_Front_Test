@@ -30,11 +30,7 @@ const StockNameList = () => {
   }, [currentPage, searchStockList, itemsPerPage])
   
   return (
-    <>
       <Post posts={currentPosts} />
-      <Pagination />
-    </>
-
   );
 };
 

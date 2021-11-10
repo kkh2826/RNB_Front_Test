@@ -7,7 +7,9 @@ import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useSession } from '../../hooks';
 // import { requestLogout } from '../../modules/auth';
 
-import LogoutModal from '../../pages/Modal/LogoutModal';
+import LogoutModal from '../../components/Modal/LogoutModal';
+import BookmarkDrawing from '../../components/Drawer/BookmarkDrawing';
+import UserInfoDrawing from '../../components/Drawer/UserInfoDrawing';
 
 const Header = () => {
   // const dispatch = useDispatch();
@@ -41,6 +43,8 @@ const Header = () => {
         )}
         {!isLogin && <Button onClick={onClickLogin}>로그인</Button>}
         <ColorModeSwitcher />
+        <BookmarkDrawing />
+        <UserInfoDrawing />
       </div>
     </div>
   );

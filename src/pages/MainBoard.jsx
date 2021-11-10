@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import StockBasicInfo from '../components/StockBasicInfo';
 import StockNameList from '../containers/lists/StockNameList';
+import Pagination from '../containers/lists/Pagination';
 import { selectPeriod } from '../modules/stock';
 import { Flex, Text, Button, Box, Spacer } from '@chakra-ui/react';
 import { Stat, StatLabel, StatNumber, StatHelpText, StatArrow, StatGroup } from "@chakra-ui/react"
@@ -11,7 +12,7 @@ import StockChart from '../components/StockChart';
 const MainBoard = () => {
   return (
     <div className="grid grid-cols-3 gap-4 h-full">
-      <div className="col-span-2 grid grid-rows-2 gap-4 ">
+      <div className="col-span-2 grid gap-4 ">
         <StockDetail />
       </div>
       <div className="col-span-1 h-full">
@@ -83,9 +84,12 @@ const StockDetail = () => {
 };
 const StockList = () => {
   return (
-    <div className="py-3 px-2 border rounded">
-      <StockBasicInfo />
-      <StockNameList />
+    <div className="py-3 px-2 border rounded h-full">
+      <div className="flex flex-col justify-between h-full">
+        <StockBasicInfo />
+        <StockNameList />
+        <Pagination />
+      </div>
     </div>
   );
 };

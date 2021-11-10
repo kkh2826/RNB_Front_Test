@@ -8,6 +8,13 @@ const StockChart = () => {
     const period = useSelector( rootReducer => rootReducer.stock.selectPeriod );
     const isDark = useColorModeValue(false, true);
     const themeColor = isDark ? 'rgba(255, 255, 255, 0.92)' : 'rgba(0, 0, 0, 0.64)';
+    const pointRadiusMap = useMemo(() => ({
+        ONEMONTH: 5,
+        THREEMONTH: 4,
+        SIXMONTH: 0,
+        ONEYEAR: 0,
+        TENEYEARS: 0
+    }), []);
     
     const data = useMemo(() => {
         return {
@@ -18,12 +25,12 @@ const StockChart = () => {
                 data: stockPriceList.map( price => price['종가']),
                 borderColor: 'rgb(86, 115, 235)',
                 borderwidth: period === 'TENYEARS' ? 1 : 4,
-                pointRadius: period === 'TENYEARS' ? 0 : 3,
+                pointRadius: pointRadiusMap[period],
                 pointBackgroundColor: 'rgb(86, 115, 235)',
                 },
             ],
         }
-    }, [stockPriceList, period])
+    }, [stockPriceList, period, pointRadiusMap])
     const options = useMemo(() => {
         return {
             plugins: { legend: { display: false } },

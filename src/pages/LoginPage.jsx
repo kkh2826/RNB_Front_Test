@@ -6,7 +6,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useInputs } from '../hooks';
 import { requestLogin } from '../modules/auth';
 
-import RegisterAccountDrawer from './Drawer/RegisterAccountDrawer';
+import RegisterAccountDrawer from '../components/Drawer/RegisterAccountDrawer';
 
 const LoginPage = () => {
     const dispatch = useDispatch();

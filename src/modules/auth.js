@@ -66,6 +66,17 @@ export const requestLogout = () => dispatch => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('username');
     dispatch(setAuth(false));
+    dispatch(
+        showToast({
+          title: '로그아웃 완료',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          onCloseComplete: () => {
+            dispatch(closeToast());
+          },
+        })
+      );
 }
 
 const initialState = {

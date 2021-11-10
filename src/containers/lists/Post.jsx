@@ -27,7 +27,7 @@ const Post = ({posts}) => {
     )
   }
   return (
-    <ul>
+    <ul className="flex-grow">
       {loading && <SkeletonArea />}
       {loading || posts
         .map(item => (
