@@ -1,19 +1,35 @@
-import { useSelector} from 'react-redux';
+import { Stack } from '@chakra-ui/layout';
+import { Skeleton } from '@chakra-ui/skeleton';
+import { useSelector } from 'react-redux';
 import StockName from '../../components/StockName';
 
-const Post = ({posts, loading }) => {
-  const key = useSelector(_ => _.stock.key);
-
-  if (loading) {
-    return <h2> Loading ... </h2>;
+const Post = ({posts}) => {
+  const loading = useSelector( rootReducer => rootReducer.loading['stock/FETCH_STOCK_LIST']);
+  const SkeletonArea = () => {
+    return (
+      <Stack>
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+        <Skeleton height="36px" />
+      </Stack>
+    )
   }
-
   return (
     <ul>
-      {posts
-        .filter(({ stockName }) =>
-          stockName.toLowerCase().includes(key.toLowerCase())
-        )
+      {loading && <SkeletonArea />}
+      {loading || posts
         .map(item => (
           <StockName key={item.stockCode} {...item} />
         ))}

@@ -38,7 +38,7 @@ const initialState = {
   selectPeriod: 'ONEMONTH',
   selectPricePeriod: [],
   priceBasic: {},
-  pagination: {
+  pagenation: {
     currentPage: 1,
     pagesTotalCount: null,
     itemsPerPage: 15,
@@ -75,8 +75,8 @@ const reducer = handleActions(
         ...state,
         key: stockName,
         searchStockList: searchStockList,
-        pagination: {
-          ...state.pagination,
+        pagenation: {
+          ...state.pagenation,
           currentPage: 1,
           pagesTotalCount: pagesTotalCount,
           pageGroupTotalCount: pageGroupTotalCount

@@ -20,7 +20,7 @@ function createRequestThunk(type, request) {
         payload: e,
         error: true,
       });
-      throw e;
+      console.log(e);
     } finally {
       dispatch(finishLoading(type));
     }
