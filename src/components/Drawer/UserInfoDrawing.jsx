@@ -10,10 +10,13 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { LockIcon } from '@chakra-ui/icons';
+import { useSelector } from 'react-redux';
 
 const UserInfoDrawing = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+  const isLogin = useSelector( rootReducer => rootReducer.auth.isLogin );
+
 
   return (
   <>
@@ -35,8 +38,19 @@ const UserInfoDrawing = () => {
             <DrawerBody>
               <Stack spacing="24px">
                 <Box>
-                  User Name : Admin <br/>
-                  User Address : ...
+                  {isLogin !== false ? 
+                    (
+                      <>
+                        User Name: Admin <br/>
+                        User Address : ...
+                      </>
+                    ) :
+                    (
+                      <>
+                        로그인을 해주세요.
+                      </>
+                    )
+                  }
                 </Box>
               </Stack>
             </DrawerBody>

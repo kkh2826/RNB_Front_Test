@@ -10,10 +10,12 @@ import {
   DrawerCloseButton,
 } from "@chakra-ui/react";
 import { StarIcon } from '@chakra-ui/icons';
+import { useSelector } from 'react-redux';
 
 const BookmarkDrawing = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+  const isLogin = useSelector( rootReducer => rootReducer.auth.isLogin );
 
   return (
   <>
@@ -35,12 +37,19 @@ const BookmarkDrawing = () => {
             <DrawerBody>
               <Stack spacing="24px">
                 <Box>
-                  <FormLabel htmlFor="stockName">관심종목</FormLabel>
-                  <Input
-                    ref={firstField}
-                    id="stockName"
-                    placeholder="즐겨찾기 해둔 종목을 검색하세요!"
-                  />
+                  {isLogin === false ? 
+                    (<FormLabel>로그인을 해주세요.</FormLabel>) : 
+                    (
+                      <>
+                      <FormLabel>관심종목</FormLabel>
+                      <Input 
+                        ref={firstField}
+                        id="stockName"
+                        placeholder="즐겨찾기 해둔 종목을 검색하세요!"
+                      />
+                      </>
+                    )
+                  }
                 </Box>
               </Stack>
             </DrawerBody>
