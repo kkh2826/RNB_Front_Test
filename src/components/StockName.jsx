@@ -1,5 +1,5 @@
 import { Box, useColorModeValue, Flex } from '@chakra-ui/react';
-import { useCallback, memo, useState } from 'react';
+import { useCallback, memo, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { selectStock, fetchStockPriceList, fetchStockBasicPrice } from '../modules/stock';
 import { StarIcon } from '@chakra-ui/icons';
@@ -16,10 +16,30 @@ const StockName = ({ bookmark = false, stockCode, stockName }) => {
     dispatch(fetchStockPriceList(stockCode));
     dispatch(fetchStockBasicPrice(stockCode));
   }, [dispatch, stockCode]);
+
+  useEffect(() => {
+    const stars = localStorage.getItem('starts') || '';
+    const token = `,${stockCode}`
+
+    if (isStar){
+      const stars_ = stars.replace(token, '');
+      localStorage.setItem('stars', stars_.concat(token));
+    }
+
+    if (stars.includes(token)){
+      setIsStar(true);
+    }
+  }, [isStar, stockCode])
+
   const onClickStar = useCallback((e) => {
     e.stopPropagation();
+    const stars = localStorage.getItem('stars') || '';
+    const token = `,${stockCode}`;
+    const stars_ = stars.replace(token, '');
+
+    localStorage.setItem('stars', stars_.concat(isStar ? '' : token));
     setIsStar(!isStar)
-  }, [isStar])
+  }, [isStar, stockCode])
   return (
     <Box
       className={`p-2 pl-3 mb-1 cursor-pointer rounded ${hoverColor}`}
