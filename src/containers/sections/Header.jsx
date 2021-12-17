@@ -1,30 +1,30 @@
 import { Heading, Button, Flex, Text } from '@chakra-ui/react';
 import { useCallback, useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { ColorModeSwitcher } from '../../ColorModeSwitcher';
 import { useSession } from '../../hooks';
-// import { requestLogout } from '../../modules/auth';
 
 import LogoutModal from '../../components/Modal/LogoutModal';
 import BookmarkDrawing from '../../components/Drawer/BookmarkDrawing';
 import UserInfoDrawing from '../../components/Drawer/UserInfoDrawing';
 
+import { getUserStockInfo } from '../../modules/user';
+
 const Header = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
   const isLogin = useSelector( rootReducer => rootReducer.auth.isLogin );
   const [token, username, updateSessionInfo] = useSession();
   const onClickLogin = useCallback(() => history.push('/login'), [history]);
-  // const onClickLogout = useCallback(() => {
-  //   dispatch(requestLogout());
-  //   history.push('/');
-  // }, [history, dispatch]);
 
   useEffect(() => {
     updateSessionInfo();
   }, [updateSessionInfo]);
+
+  useEffect(() => {
+    dispatch(getUserStockInfo({ token, username }));
+  }, [username, dispatch, token])
 
   return (
     <div className="container mx-auto p-4 flex">

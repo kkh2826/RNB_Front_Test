@@ -1,7 +1,7 @@
 import { createAction, handleActions } from 'redux-actions';
 import { closeToast, showToast } from './toast';
 
-function postData(url='', data={}) {
+export function postData(url='', data={}) {
     return fetch(url,{
         method: 'POST',
         mode: 'cors',
