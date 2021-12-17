@@ -11,11 +11,22 @@ import {
 } from "@chakra-ui/react";
 import { StarIcon } from '@chakra-ui/icons';
 import { useSelector } from 'react-redux';
+import StockName from '../StockName';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const BookmarkDrawing = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
   const isLogin = useSelector( rootReducer => rootReducer.auth.isLogin );
+
+  const stockList = useSelector( rootReducer => rootReducer.stock.stockList );
+  const [bookmarkList, setBookmarkList] = useState([]);
+
+  useEffect(() => {
+    const bookmarkList = stockList.filter(stock => stock.bookmark)
+    setBookmarkList(bookmarkList);
+  }, [stockList]);
 
   return (
   <>
@@ -51,6 +62,14 @@ const BookmarkDrawing = () => {
                     )
                   }
                 </Box>
+                {bookmarkList.map(bookmarkStock => {
+                  return (
+                    <StockName
+                      key={`drawer_star_item${bookmarkStock.stockCode}`}
+                      {...bookmarkStock}
+                    />
+                  )
+                })}
               </Stack>
             </DrawerBody>
           </DrawerContent>

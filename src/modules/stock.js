@@ -12,6 +12,7 @@ const CHANGEKEY = 'stock/CHANGEKEY';
 const CHANGEPAGE = 'stock/CHANGEPAGE';
 const SELECTSTOCK = 'stock/SELECTSTOCK';
 const SELECTPERIOD = 'stock/SELECTPERIOD';
+const TOGGLEBOOKMARK = 'stock/TOGGLEBOOKMARK';
 
 const GetStockList = market =>
   fetch(`http://127.0.0.1:8000/api/stockinfo/${market}/`);
@@ -27,6 +28,7 @@ export const changeKey = createAction(CHANGEKEY, stockName=>stockName);
 export const changePage = createAction(CHANGEPAGE, page => page);
 export const selectStock = createAction(SELECTSTOCK, stockCode=>stockCode);
 export const selectPeriod = createAction(SELECTPERIOD, period=>period);
+export const toggleBookmark = createAction(TOGGLEBOOKMARK);
 
 // initial state
 const initialState = {
@@ -53,11 +55,19 @@ const reducer = handleActions(
     [FETCH_STOCK_LIST_SUCCESS]: (state, { payload: data }) => {
       const pagesTotalCount = Math.ceil(data.length / state.pagenation.itemsPerPage)
       const pageGroupTotalCount = pagesTotalCount / state.pagenation.pageGroupSize
+      const stars = localStorage.getItem('stars') || '';
+      const stockListWithBookmark = data.map(item => {
+        const bookmark = stars.includes(item.stockCode);
+        return {
+          ...item,
+          bookmark
+        }
+      })
 
       return {
         ...state,
-        stockList: data,
-        searchStockList: data,
+        stockList: stockListWithBookmark,
+        searchStockList: stockListWithBookmark,
         pagenation: {
           ...state.pagenation,
           currentPage: 1,
@@ -115,7 +125,32 @@ const reducer = handleActions(
     [FETCH_STOCK_BASICPRICE_SUCCESS]: (state, { payload: data }) => ({
       ...state,
       priceBasic: data
-    })
+    }),
+    [TOGGLEBOOKMARK]: (state, { paylaod: stockCode, bookmark }) => {
+      const stockList = state.stockList.map(stock => {
+        if (stock.stockCode === stockCode) {
+          return {
+            ...state,
+            bookmark: !bookmark
+          }
+        }
+        return stock;
+      });
+      const searchStockList = state.searchStockList.map(searchStock => {
+        if (searchStock.stockCode === stockCode) {
+          return {
+            ...state,
+            bookmark: !bookmark
+          }
+        }
+        return searchStock;
+      });
+      return {
+        ...state,
+        stocklist: stockList,
+        searchStocklist: searchStockList
+      }
+    }
   },
   initialState
 );
