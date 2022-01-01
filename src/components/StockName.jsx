@@ -3,7 +3,7 @@ import { useCallback, memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { toggleBookmark, selectStock, fetchStockBasicPrice, fetchStockPriceList } from '../modules/stock';
 import { StarIcon } from '@chakra-ui/icons';
-import { postUserStockInfo } from '../modules/user';
+import { postUserStockInfo, deleteUserStockInfo } from '../modules/user';
 
 //import { BsStar, BsStarFill } from 'react-icons/bs';
 
@@ -25,7 +25,12 @@ const StockName = ({ bookmark, stockCode, stockName }) => {
 
     localStorage.setItem('stars', stars_.concat(bookmark ? '' : token));
     dispatch(toggleBookmark({ stockCode, bookmark }));
-    dispatch(postUserStockInfo([{ stockCode }]))
+    if (bookmark) {
+      dispatch(deleteUserStockInfo({ stockCode }))
+    } else {
+      dispatch(postUserStockInfo([{ stockCode }]))
+    }
+    
   }, [dispatch, bookmark, stockCode])
   return (
     <Box
